@@ -1,0 +1,34 @@
+version: '3'
+services:
+  publisher:
+    build:
+      context: .
+      dockerfile: publisher.dockerfile
+    container_name: publisher
+    ports: 
+      - "8080:8080"
+    environment:
+      LISTEN_ADDRESS: '0.0.0.0:8080'
+      KAFKA_BROKERS: '${MY_IP}:19092,${MY_IP}:29092,${MY_IP}:39092'
+      KAFKA_CLIENT_ID: 'my-client'
+      KAFKA_TOPIC: 'NewsAdd'
+
+  consumer1:
+    build:
+      context: .
+      dockerfile: consumer.dockerfile
+    container_name: consumer
+    environment:
+      KAFKA_BROKERS: '${MY_IP}:19092,${MY_IP}:29092,${MY_IP}:39092'
+      KAFKA_CLIENT_ID: 'my-client'
+      KAFKA_TOPIC: 'NewsAdd'
+
+  consumer2:
+    build:
+      context: .
+      dockerfile: consumer.dockerfile
+    container_name: consumer
+    environment:
+      KAFKA_BROKERS: '${MY_IP}:19092,${MY_IP}:29092,${MY_IP}:39092'
+      KAFKA_CLIENT_ID: 'my-client'
+      KAFKA_TOPIC: 'NewsAdd'
